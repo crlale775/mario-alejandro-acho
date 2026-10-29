@@ -31,7 +31,7 @@ public static class LevelUnderground
         b.Mystery(14, 4, "MagicMushroom");
         b.Mystery(16, 4, "BlockCoin");
         b.Goomba(20, 0);
-        b.Pipe(24, 0, 3);
+        b.PiranhaPipe(24, 0, 3, true);
         b.CoinRow(28, 31, 6, true);
         b.BrickRow(34, 38, 6);
         b.Goomba(35, 0);
@@ -50,7 +50,7 @@ public static class LevelUnderground
         b.Mystery(69, 5, "BlockCoin");
         b.CoinRow(67, 71, 6, true);
         b.Koopa(76, 0);
-        b.Pipe(80, 0, 4);
+        b.PiranhaPipe(80, 0, 4, true);
         b.BrickRow(84, 90, 6);
         b.CoinRow(85, 89, 7, true);
         b.Goomba(88, 0);
@@ -79,7 +79,7 @@ public static class LevelUnderground
         b.CoinRow(161, 164, 7, true);
         b.Koopa(166, 0);
         b.Goomba(172, 0);
-        b.Pipe(180, 0, 2);
+        b.PiranhaPipe(180, 0, 2, true);
         b.CoinRow(186, 189, 4, true);
         b.Mystery(192, 4, "BlockCoin");
 

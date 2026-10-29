@@ -26,7 +26,7 @@ public static class LevelWater
 
         // superficie del agua (decorativa)
         for (int x = -2; x < 192; x++) {
-            b.SpriteObject("WaterSurface", x + 0.5f, 11.6f, -6);
+            b.SpriteObject("WaterTop", x + 0.5f, 11.5f, -6);
         }
 
         // ---------------------------- decoracion -------------------------
@@ -88,6 +88,24 @@ public static class LevelWater
         b.CheepCheep(136, 6.5f, 5f, 2.6f);
         b.CheepCheep(156, 8f, 6f, 2.3f);
         b.CheepCheep(168, 7f, 5f, 2.7f);
+
+        // bloopers que suben y bajan entre los corales
+        b.Blooper(26, 5f, 4f, 1.5f);
+        b.Blooper(52, 8f, 5f, 1.8f);
+        b.Blooper(80, 6.5f, 4f, 1.6f);
+        b.Blooper(108, 7.5f, 5f, 1.4f);
+        b.Blooper(142, 6f, 4f, 1.7f);
+        b.Blooper(164, 8f, 5f, 1.5f);
+
+        // salientes rocosos con monedas encima
+        b.SpriteObject("SeaPlatform", 36.5f, 4.2f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(35, 37, 5);
+
+        b.SpriteObject("SeaPlatform", 94.5f, 5.2f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(93, 95, 6);
+
+        b.SpriteObject("SeaPlatform", 128.5f, 3.6f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(127, 129, 5);
 
         // burbujas ambientales
         b.Bubbles(0f, Length, 1f, 11f, 26);

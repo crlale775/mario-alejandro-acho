@@ -3,7 +3,10 @@ param(
   [string]$Keys = "",
   [int]$WaitMs = 1200,
   [int]$Width = 1536,
-  [int]$Height = 960
+  [int]$Height = 960,
+  [string]$Hold = "",
+  [int]$HoldMs = 1500,
+  [switch]$AutoJump
 )
 
 Add-Type @"
@@ -13,6 +16,7 @@ public class Win32 {
   [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
   [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
   [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+  [DllImport("user32.dll")] public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 }
 "@
 
@@ -38,6 +42,26 @@ if ($Keys -ne "") {
     $wsh.SendKeys($key)
     Start-Sleep -Milliseconds 400
   }
+}
+
+if ($Hold -ne "") {
+  $codes = @{ RIGHT = 0x27; LEFT = 0x25; UP = 0x26; DOWN = 0x28; SPACE = 0x20 }
+  $vk = [byte]$codes[$Hold]
+  [Win32]::keybd_event($vk, 0, 0, [UIntPtr]::Zero)
+
+  $elapsed = 0
+  while ($elapsed -lt $HoldMs) {
+    Start-Sleep -Milliseconds 120
+    $elapsed += 120
+
+    if ($AutoJump -and ($elapsed % 720) -lt 120) {
+      [Win32]::keybd_event([byte]0x20, 0, 0, [UIntPtr]::Zero)
+      Start-Sleep -Milliseconds 90
+      [Win32]::keybd_event([byte]0x20, 0, 2, [UIntPtr]::Zero)
+    }
+  }
+
+  [Win32]::keybd_event($vk, 0, 2, [UIntPtr]::Zero)
 }
 
 Start-Sleep -Milliseconds $WaitMs

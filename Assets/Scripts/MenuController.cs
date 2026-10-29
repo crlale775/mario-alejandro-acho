@@ -51,10 +51,6 @@ public class MenuController : MonoBehaviour
             return;
         }
 
-        if (Time.unscaledTime - openedAt < 3f && Input.anyKeyDown) {
-            Debug.Log($"Input: '{Input.inputString}' up={Input.GetKeyDown(KeyCode.UpArrow)} down={Input.GetKeyDown(KeyCode.DownArrow)} enter={Input.GetKeyDown(KeyCode.Return)} space={Input.GetKeyDown(KeyCode.Space)} w={Input.GetKeyDown(KeyCode.W)} s={Input.GetKeyDown(KeyCode.S)}");
-        }
-
         time += Time.deltaTime;
 
         if (title != null) {
