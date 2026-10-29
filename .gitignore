@@ -73,3 +73,7 @@ crashlytics-build.properties
 # Registros y capturas de desarrollo
 *.log
 /shot-*.png
+
+# Archivos locales de prueba
+*.log
+shot-*.png
