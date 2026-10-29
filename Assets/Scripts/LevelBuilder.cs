@@ -226,6 +226,29 @@ public class LevelBuilder
         cheep.SetPatrol(tx + 0.5f - patrol, tx + 0.5f + patrol, speed);
     }
 
+    public void Blooper(int tx, float y, float patrol = 4f, float speed = 1.5f)
+    {
+        GameObject blooper = new GameObject("Blooper");
+        blooper.transform.SetParent(root);
+        blooper.transform.position = new Vector3(tx + 0.5f, y, 0f);
+        blooper.layer = LayerMask.NameToLayer("Enemy");
+
+        SpriteRenderer renderer = blooper.AddComponent<SpriteRenderer>();
+        renderer.sprite = LoadSprite("Blooper");
+        renderer.sortingOrder = 3;
+
+        Rigidbody2D body = blooper.AddComponent<Rigidbody2D>();
+        body.bodyType = RigidbodyType2D.Kinematic;
+        body.gravityScale = 0f;
+
+        BoxCollider2D collider = blooper.AddComponent<BoxCollider2D>();
+        collider.size = new Vector2(0.8f, 1.2f);
+
+        CheepCheep enemy = blooper.AddComponent<CheepCheep>();
+        enemy.Initialize(LoadSprite("Blooper"), LoadSprite("Blooper"));
+        enemy.SetPatrol(tx + 0.5f - patrol, tx + 0.5f + patrol, speed);
+    }
+
     /* -------------------------------- tuberias ----------------------------- */
 
     public GameObject Pipe(int tx, int groundY, int height)
@@ -375,9 +398,10 @@ public class LevelBuilder
 
     public void LavaPool(int x0, int x1, int tileY, bool hazard = true)
     {
-        for (int tx = x0; tx <= x1; tx++) {
-            AnimatedDecoration(tx, tileY + 0.5f, new[] { "Lava1", "Lava2", "Lava3" }, 0.14f, -2);
-        }
+        // dos filas de lava profunda y la superficie con burbujas
+        RowSprite("LavaDeep", x0, x1, tileY - 1, false, -4);
+        RowSprite("LavaDeep", x0, x1, tileY - 2, false, -4);
+        RowSprite("LavaTop", x0, x1, tileY, false, -3);
 
         if (!hazard) {
             return;
@@ -476,6 +500,137 @@ public class LevelBuilder
 
         AxeGoal goal = axe.AddComponent<AxeGoal>();
         goal.bridge = bridge;
+    }
+
+    /* --------------------------- plataformas ------------------------------- */
+
+    public MovingPlatform MovingPlatform(float x, float y, float endX, float endY, float speed, float width, string spriteName = "CastleGround")
+    {
+        GameObject platform = new GameObject("Moving Platform");
+        platform.transform.SetParent(root);
+        platform.transform.position = new Vector3(x, y, 0f);
+
+        SpriteRenderer renderer = platform.AddComponent<SpriteRenderer>();
+        renderer.sprite = LoadSprite(spriteName);
+        renderer.drawMode = SpriteDrawMode.Tiled;
+        renderer.size = new Vector2(width, 1f);
+        renderer.sortingOrder = 1;
+
+        BoxCollider2D collider = platform.AddComponent<BoxCollider2D>();
+        collider.size = new Vector2(width, 1f);
+
+        Rigidbody2D body = platform.AddComponent<Rigidbody2D>();
+        body.bodyType = RigidbodyType2D.Kinematic;
+        body.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        MovingPlatform mover = platform.AddComponent<MovingPlatform>();
+        mover.pointA = new Vector2(x, y);
+        mover.pointB = new Vector2(endX, endY);
+        mover.speed = speed;
+        mover.width = width;
+        mover.height = 1f;
+
+        return mover;
+    }
+
+    /* Montura de Toad sobre una bola de fuego que rueda por la lava. */
+    public ToadFireballRide ToadRide(float x, float y, float minX, float maxX)
+    {
+        GameObject ride = new GameObject("Toad Ride");
+        ride.transform.SetParent(root);
+        ride.transform.position = new Vector3(x, y, 0f);
+
+        GameObject fireball = new GameObject("Fireball");
+        fireball.transform.SetParent(ride.transform);
+        fireball.transform.localPosition = Vector3.zero;
+        fireball.transform.localScale = new Vector3(2.6f, 2.6f, 1f);
+
+        SpriteRenderer fireRenderer = fireball.AddComponent<SpriteRenderer>();
+        fireRenderer.sprite = LoadSprite("FirebarBall");
+        fireRenderer.sortingOrder = 2;
+
+        GameObject toad = new GameObject("Toad");
+        toad.transform.SetParent(ride.transform);
+        toad.transform.localPosition = new Vector3(0f, 1.6f, 0f);
+
+        SpriteRenderer toadRenderer = toad.AddComponent<SpriteRenderer>();
+        toadRenderer.sprite = LoadSprite("Toad");
+        toadRenderer.sortingOrder = 3;
+
+        ToadFireballRide component = ride.AddComponent<ToadFireballRide>();
+        component.minX = minX;
+        component.maxX = maxX;
+        component.fireball = fireball.transform;
+        component.fireballRenderer = fireRenderer;
+        component.toad = toad.transform;
+
+        return component;
+    }
+
+    /* ------------------------------ trampas -------------------------------- */
+
+    public void LavaBubble(int tx, float baseY, float height = 5.5f, float period = 3.4f, float offset = 0f)
+    {
+        GameObject bubble = new GameObject("Lava Bubble");
+        bubble.transform.SetParent(root);
+        bubble.transform.position = new Vector3(tx + 0.5f, baseY, 0f);
+
+        SpriteRenderer renderer = bubble.AddComponent<SpriteRenderer>();
+        renderer.sprite = LoadSprite("Podoboo1");
+        renderer.sortingOrder = 2;
+
+        BoxCollider2D collider = bubble.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
+        collider.size = new Vector2(0.7f, 1f);
+
+        LavaBubble lavaBubble = bubble.AddComponent<LavaBubble>();
+        lavaBubble.baseY = baseY;
+        lavaBubble.jumpHeight = height;
+        lavaBubble.period = period;
+        lavaBubble.offset = offset;
+    }
+
+    public Cannon WallCannon(int tx, int ty, float direction)
+    {
+        GameObject cannon = new GameObject("Cannon");
+        cannon.transform.SetParent(root);
+        cannon.transform.position = new Vector3(tx + 0.5f, ty + 0.5f, 0f);
+
+        SpriteRenderer renderer = cannon.AddComponent<SpriteRenderer>();
+        renderer.sprite = LoadSprite("CastleCannon");
+        renderer.sortingOrder = 2;
+        renderer.flipX = direction > 0f;
+
+        Cannon shooter = cannon.AddComponent<Cannon>();
+        shooter.direction = direction;
+        shooter.ballSprite = LoadSprite("Podoboo1");
+
+        return shooter;
+    }
+
+    /* Tuberia con planta piraña que sube y baja. */
+    public void PiranhaPipe(int tx, int groundY, int height = 2, bool underground = false)
+    {
+        Pipe(tx, groundY, height);
+
+        GameObject plant = new GameObject("Piranha");
+        plant.transform.SetParent(root);
+
+        float top = groundY + height;
+        plant.transform.position = new Vector3(tx + 1f, top - 0.9f, 0f);
+
+        SpriteRenderer renderer = plant.AddComponent<SpriteRenderer>();
+        renderer.sprite = LoadSprite(underground ? "PiranhaUnderground" : "Piranha");
+        renderer.sortingOrder = 4;
+
+        BoxCollider2D collider = plant.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
+        collider.size = new Vector2(0.85f, 1.2f);
+        collider.offset = new Vector2(0f, 0.25f);
+
+        PiranhaTrap trap = plant.AddComponent<PiranhaTrap>();
+        trap.hiddenY = top - 0.9f;
+        trap.raisedY = top + 0.55f;
     }
 
     /* ------------------------------ jugador -------------------------------- */

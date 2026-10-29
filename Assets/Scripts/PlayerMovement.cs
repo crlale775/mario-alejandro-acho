@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private new Collider2D collider;
 
     private Vector2 velocity;
+    private Vector2 externalDisplacement;
     private float inputAxis;
     private float swimSfxCooldown;
 
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody.isKinematic = false;
         collider.enabled = true;
         velocity = Vector2.zero;
+        externalDisplacement = Vector2.zero;
         jumping = false;
     }
 
@@ -46,12 +48,19 @@ public class PlayerMovement : MonoBehaviour
         rigidbody.isKinematic = true;
         collider.enabled = false;
         velocity = Vector2.zero;
+        externalDisplacement = Vector2.zero;
         jumping = false;
     }
 
     public void SetSwimming(bool value)
     {
         swimming = value;
+    }
+
+    /* Plataformas moviles y monturas empujan al jugador con este desplazamiento. */
+    public void AddExternalDisplacement(Vector2 delta)
+    {
+        externalDisplacement += delta;
     }
 
     private void Update()
@@ -81,6 +90,8 @@ public class PlayerMovement : MonoBehaviour
         // move mario based on his velocity
         Vector2 position = rigidbody.position;
         position += velocity * Time.fixedDeltaTime;
+        position += externalDisplacement;
+        externalDisplacement = Vector2.zero;
 
         // clamp within the screen bounds
         if (camera != null)
