@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public bool dead => deathAnimation.enabled;
     public bool starpower { get; private set; }
     public bool invulnerable { get; private set; }
+    public bool crouching { get; private set; }
 
     private void Awake()
     {
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
+        crouching = false;
         smallRenderer.enabled = false;
         bigRenderer.enabled = false;
         deathAnimation.enabled = true;
@@ -68,6 +70,7 @@ public class Player : MonoBehaviour
 
     public void Grow()
     {
+        crouching = false;
         smallRenderer.enabled = false;
         bigRenderer.enabled = true;
         activeRenderer = bigRenderer;
@@ -78,8 +81,61 @@ public class Player : MonoBehaviour
         StartCoroutine(ScaleAnimation());
     }
 
+    /* Solo Mario grande se agacha: reduce el collider y pasa por huecos de un bloque. */
+    public void SetCrouching(bool value)
+    {
+        if (!big || dead) {
+            value = false;
+        }
+
+        if (value == crouching) {
+            return;
+        }
+
+        if (!value && BlockedAbove()) {
+            return;
+        }
+
+        crouching = value;
+
+        if (crouching) {
+            capsuleCollider.size = new Vector2(1f, 1f);
+            capsuleCollider.offset = Vector2.zero;
+        } else {
+            capsuleCollider.size = new Vector2(1f, 2f);
+            capsuleCollider.offset = new Vector2(0f, 0.5f);
+        }
+    }
+
+    /* Evita levantarse dentro de un bloque o una tuberia. */
+    private bool BlockedAbove()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll((Vector2)transform.position + new Vector2(0f, 0.95f), new Vector2(0.8f, 0.7f), 0f);
+
+        foreach (Collider2D hit in hits) {
+            if (hit.isTrigger || hit.gameObject == gameObject) {
+                continue;
+            }
+
+            if (hit.transform.IsChildOf(transform)) {
+                continue;
+            }
+
+            int layer = hit.gameObject.layer;
+
+            if (layer == LayerMask.NameToLayer("Enemy") || layer == LayerMask.NameToLayer("PowerUp")) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public void Shrink()
     {
+        crouching = false;
         smallRenderer.enabled = true;
         bigRenderer.enabled = false;
         activeRenderer = smallRenderer;

@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private new Camera camera;
     private new Rigidbody2D rigidbody;
     private new Collider2D collider;
+    private Player player;
 
     private Vector2 velocity;
     private Vector2 externalDisplacement;
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
         camera = Camera.main;
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
+        player = GetComponent<Player>();
     }
 
     private void OnEnable()
@@ -71,12 +73,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (swimming)
         {
+            player.SetCrouching(false);
             SwimVertical();
             grounded = rigidbody.Raycast(Vector2.down);
             return;
         }
 
         grounded = rigidbody.Raycast(Vector2.down);
+
+        // abajo agacha a Mario grande mientras este en el suelo
+        player.SetCrouching(grounded && Input.GetAxisRaw("Vertical") < -0.5f);
 
         if (grounded) {
             GroundedMovement();
@@ -108,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // accelerate / decelerate
         inputAxis = Input.GetAxis("Horizontal");
-        float speed = moveSpeed * SwimmingMultiplier;
+        float speed = moveSpeed * SwimmingMultiplier * (player.crouching ? 0.45f : 1f);
         velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * speed, speed * Time.deltaTime * (swimming ? 2f : 1f));
 
         // check if running into a wall
@@ -130,8 +136,8 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = Mathf.Max(velocity.y, 0f);
         jumping = velocity.y > 0f;
 
-        // perform jump
-        if (Input.GetButtonDown("Jump"))
+        // perform jump (agachado no se puede saltar)
+        if (Input.GetButtonDown("Jump") && !player.crouching)
         {
             velocity.y = jumpForce;
             jumping = true;

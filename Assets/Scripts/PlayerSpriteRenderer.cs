@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerSpriteRenderer : MonoBehaviour
 {
     private PlayerMovement movement;
+    private Player player;
     public SpriteRenderer spriteRenderer { get; private set; }
     public Sprite idle;
     public Sprite jump;
@@ -13,11 +14,20 @@ public class PlayerSpriteRenderer : MonoBehaviour
     private void Awake()
     {
         movement = GetComponentInParent<PlayerMovement>();
+        player = GetComponentInParent<Player>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void LateUpdate()
     {
+        // agachado se usa el sprite de frenada, con la cabeza baja
+        if (player != null && player.crouching)
+        {
+            run.enabled = false;
+            spriteRenderer.sprite = slide;
+            return;
+        }
+
         run.enabled = movement.running;
 
         if (movement.jumping) {
