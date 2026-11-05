@@ -150,6 +150,41 @@ public class LevelBuilder
         Row("Brick", x0, x1, ty);
     }
 
+    /* Ladrillo rompible hecho con el sprite del nivel, sin prefab. */
+    public GameObject SpriteBrick(string spriteName, int tx, int ty)
+    {
+        GameObject go = TileSprite(spriteName, tx, ty);
+        go.name = "Brick";
+
+        BlockHit hit = go.AddComponent<BlockHit>();
+        hit.emptyBlock = LoadSprite(spriteName);
+        hit.maxHits = -1;
+        hit.breakable = true;
+
+        return go;
+    }
+
+    public void SpriteBrickRow(string spriteName, int x0, int x1, int ty)
+    {
+        for (int tx = x0; tx <= x1; tx++) {
+            SpriteBrick(spriteName, tx, ty);
+        }
+    }
+
+    /* Bloque de interrogacion para los niveles con otro estilo de piedra. */
+    public GameObject SpriteMystery(string blockSprite, int tx, int ty, string itemPrefab)
+    {
+        GameObject go = TileSprite(blockSprite, tx, ty);
+        go.name = "Mystery Block";
+
+        BlockHit hit = go.AddComponent<BlockHit>();
+        hit.emptyBlock = LoadSprite("EmptyBlock");
+        hit.maxHits = 1;
+        hit.item = LoadPrefab(itemPrefab);
+
+        return go;
+    }
+
     public void Mystery(int tx, int ty, string item = "BlockCoin")
     {
         GameObject block = Tile("MysteryBlock", tx, ty);
