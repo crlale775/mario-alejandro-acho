@@ -38,6 +38,13 @@ public static class LevelUnderground
         b.Koopa(44, 0);
         b.CoinRow(46, 49, 3, true);
 
+        // bloques escondidos encima de la koopa: uno guarda una vida extra
+        b.Brick(40, 5);
+        b.Mystery(41, 5, "1upMushroom");
+        b.Brick(42, 5);
+        b.Brick(43, 5);
+        b.CoinRow(40, 43, 6, true);
+
         // ---------------------------- tramo 2 ----------------------------
         for (int i = 0; i < 4; i++) {
             for (int y = 1; y <= i + 1; y++) {
@@ -55,6 +62,11 @@ public static class LevelUnderground
         b.CoinRow(85, 89, 7, true);
         b.Goomba(88, 0);
         b.CoinRow(92, 95, 3, true);
+
+        b.PiranhaPipe(94, 0, 2, true);
+        b.CoinRow(53, 57, 6, true);
+        b.CoinRow(97, 101, 6, true);
+        b.Goomba(98, 0);
 
         // ---------------------------- tramo 3 ----------------------------
         for (int i = 0; i < 4; i++) {
@@ -74,6 +86,12 @@ public static class LevelUnderground
         b.CoinRow(142, 147, 5, true);
         b.Goomba(146, 0);
 
+        b.Brick(144, 5);
+        b.Mystery(145, 5, "1upMushroom");
+        b.Brick(146, 5);
+        b.CoinRow(144, 146, 6, true);
+        b.Koopa(149, 0);
+
         // ---------------------------- tramo final -------------------------
         b.BrickRow(160, 165, 6);
         b.CoinRow(161, 164, 7, true);
@@ -82,6 +100,12 @@ public static class LevelUnderground
         b.PiranhaPipe(180, 0, 2, true);
         b.CoinRow(186, 189, 4, true);
         b.Mystery(192, 4, "BlockCoin");
+
+        for (int i = 0; i < 5; i++) {
+            b.Coin(193 + i, 3 + (i < 3 ? i : 4 - i), true);
+        }
+
+        b.Goomba(197, 0);
 
         // tuberia de salida hacia el nivel acuatico
         b.ExitPipe(202, 0, 4);
