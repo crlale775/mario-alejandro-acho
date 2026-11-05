@@ -5,6 +5,12 @@ ampliado con nuevos niveles, sonido, contadores y un castillo final de diseño p
 
 Repositorio: <https://github.com/crlale775/mario-alejandro-acho>
 
+## Integrantes
+- Acho Huallpa Alejandro Cesar
+- Coquendo Amba Jorge Armando
+- Cruz Condori Shaden Ahira
+- Oraqueni Condori Jhonatan
+
 ## Mejoras agregadas
 
 - **Escena de menú inicial** con cuatro opciones navegables (nueva partida, nivel
