@@ -147,6 +147,13 @@ public class MenuController : MonoBehaviour
         InstantiatePrefab("Cloud2", new Vector3(3f, 12f, 0f), scenery.transform);
         InstantiatePrefab("Cloud3", new Vector3(9f, 10.5f, 0f), scenery.transform);
         InstantiatePrefab("Castle", new Vector3(-10.5f, 1f, 0f), scenery.transform);
+        InstantiatePrefab("Hill2", new Vector3(11.5f, 2f, 0f), scenery.transform);
+        InstantiatePrefab("Cloud2", new Vector3(-11.5f, 12.5f, 0f), scenery.transform);
+
+        Decoration("Mario_Small_Idle", new Vector3(-1.5f, 1.7f, 0f), 1.6f, false, scenery.transform);
+        Decoration("Goomba_Walk1", new Vector3(1.5f, 1.6f, 0f), 1.6f, true, scenery.transform);
+        Decoration("MysteryBlock", new Vector3(4f, 4f, 0f), 1.2f, false, scenery.transform);
+        Decoration("Coin", new Vector3(6.5f, 4f, 0f), 1.2f, false, scenery.transform);
     }
 
     private static void InstantiatePrefab(string name, Vector3 position, Transform parent)
@@ -164,6 +171,28 @@ public class MenuController : MonoBehaviour
         foreach (Collider2D collider in instance.GetComponentsInChildren<Collider2D>()) {
             Destroy(collider);
         }
+    }
+
+    /* Sprite suelto para adornar el menu (sin colliders ni scripts). */
+    private static GameObject Decoration(string spriteName, Vector3 position, float scale, bool flip, Transform parent)
+    {
+        Sprite sprite = Resources.Load<Sprite>($"Sprites/{spriteName}");
+
+        if (sprite == null) {
+            return null;
+        }
+
+        GameObject decoration = new GameObject(spriteName);
+        decoration.transform.SetParent(parent);
+        decoration.transform.position = position;
+        decoration.transform.localScale = Vector3.one * scale;
+
+        SpriteRenderer renderer = decoration.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+        renderer.flipX = flip;
+        renderer.sortingOrder = 3;
+
+        return decoration;
     }
 
     private void BuildInterface()
@@ -197,29 +226,43 @@ public class MenuController : MonoBehaviour
 
         labels = new Text[options.Length];
         details = new Text[options.Length];
-        float startY = 150f;
+
+        // filas del menu: cuatro niveles por mundo, con un separador entre ambos
+        float[] rows = { 128f, 76f, 24f, -28f, -140f, -192f, -244f, -296f };
+
+        Text world1 = MakeText(canvasObject.transform, "World1", "MUNDO 1  ·  REINO CHAMPINON",
+            20, new Color(1f, 0.86f, 0.32f), font, TextAnchor.MiddleLeft);
+        world1.rectTransform.anchoredPosition = new Vector2(-80f, 172f);
+        world1.rectTransform.sizeDelta = new Vector2(660f, 28f);
+        world1.alignment = TextAnchor.MiddleLeft;
+
+        Text world2 = MakeText(canvasObject.transform, "World2", "MUNDO 2  ·  DESIERTO Y CRISTAL",
+            20, new Color(1f, 0.86f, 0.32f), font, TextAnchor.MiddleLeft);
+        world2.rectTransform.anchoredPosition = new Vector2(-80f, -96f);
+        world2.rectTransform.sizeDelta = new Vector2(660f, 28f);
+        world2.alignment = TextAnchor.MiddleLeft;
 
         for (int i = 0; i < options.Length; i++)
         {
-            labels[i] = MakeText(canvasObject.transform, $"Option{i}", options[i].label, 34, Color.white, font, TextAnchor.MiddleCenter);
-            labels[i].rectTransform.anchoredPosition = new Vector2(-90f, startY - i * 70f);
+            labels[i] = MakeText(canvasObject.transform, $"Option{i}", options[i].label, 30, Color.white, font, TextAnchor.MiddleCenter);
+            labels[i].rectTransform.anchoredPosition = new Vector2(-80f, rows[i]);
             labels[i].alignment = TextAnchor.MiddleLeft;
-            labels[i].rectTransform.sizeDelta = new Vector2(700f, 48f);
+            labels[i].rectTransform.sizeDelta = new Vector2(660f, 42f);
 
-            details[i] = MakeText(canvasObject.transform, $"Detail{i}", options[i].detail, 20, Color.white, font, TextAnchor.MiddleCenter);
-            details[i].rectTransform.anchoredPosition = new Vector2(340f, startY - i * 70f + 2f);
-            details[i].rectTransform.sizeDelta = new Vector2(380f, 34f);
+            details[i] = MakeText(canvasObject.transform, $"Detail{i}", options[i].detail, 18, Color.white, font, TextAnchor.MiddleCenter);
+            details[i].rectTransform.anchoredPosition = new Vector2(340f, rows[i] + 1f);
+            details[i].rectTransform.sizeDelta = new Vector2(390f, 30f);
             details[i].alignment = TextAnchor.MiddleLeft;
         }
 
         hint = MakeText(canvasObject.transform, "Hint",
             "FLECHAS / W-S  ELEGIR        ENTER / ESPACIO  JUGAR        M  SILENCIAR",
-            24, new Color(0.85f, 0.9f, 1f), font, TextAnchor.MiddleCenter);
-        hint.rectTransform.anchoredPosition = new Vector2(0f, -400f);
+            22, new Color(0.85f, 0.9f, 1f), font, TextAnchor.MiddleCenter);
+        hint.rectTransform.anchoredPosition = new Vector2(0f, -362f);
 
         Text footer = MakeText(canvasObject.transform, "Footer",
-            "Cualquier opcion inicia el juego", 24, new Color(1f, 1f, 1f, 0.55f), font, TextAnchor.MiddleCenter);
-        footer.rectTransform.anchoredPosition = new Vector2(0f, -446f);
+            "Cualquier opcion inicia el juego  ·  edicion Alejandro Acho", 20, new Color(1f, 1f, 1f, 0.55f), font, TextAnchor.MiddleCenter);
+        footer.rectTransform.anchoredPosition = new Vector2(0f, -402f);
     }
 
     private Text MakeText(Transform parent, string name, string content, int fontSize, Color color, Font font, TextAnchor anchor)
