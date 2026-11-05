@@ -29,6 +29,10 @@ public static class LevelCastle
 
         b.CoinRow(6, 9, 3);
         b.Mystery(16, 4, "MagicMushroom");
+
+        // bloque escondido sobre la entrada
+        b.Mystery(8, 6, "1upMushroom");
+        b.CoinRow(9, 12, 6);
         b.Goomba(12, 0);
         b.Koopa(19, 0);
 
@@ -109,6 +113,7 @@ public static class LevelCastle
         b.GroundSprite("CastleGround", 105, 122, 0);
         b.CoinRow(106, 109, 2);
         b.Mystery(112, 4, "MagicMushroom");
+        b.Mystery(110, 4, "1upMushroom");
 
         b.PiranhaPipe(115, 0, 2);
         b.PiranhaPipe(120, 0, 2);
@@ -137,6 +142,9 @@ public static class LevelCastle
         b.Koopa(150, 0);
         b.Goomba(158, 0);
         b.CoinRow(144, 146, 3);
+
+        b.Mystery(148, 5, "BlockCoin");
+        b.CoinRow(149, 151, 5);
 
         // escalera hacia el puente
         b.TileSprite("CastleBrick", 157, 1);
@@ -172,13 +180,13 @@ public static class LevelCastle
         b.AnimatedDecoration(200, 3.5f, new[] { "Torch1", "Torch2" }, 0.12f, -3);
 
         // ---------------------------- decorado ---------------------------
-        int[] windows = { 4, 10, 17, 33, 47, 58, 72, 79, 107, 118, 131, 144, 153, 168, 182 };
+        int[] windows = { 4, 10, 17, 33, 47, 58, 72, 79, 107, 118, 131, 144, 153, 168, 182, 26, 66, 95, 126, 160, 190 };
 
         foreach (int x in windows) {
             b.SpriteObject("CastleWindow", x + 0.5f, 6.6f, -7);
         }
 
-        int[] torches = { 6, 14, 20, 32, 37, 46, 54, 60, 71, 77, 106, 110, 119, 128, 137, 146, 151, 157, 163, 171, 180, 188, 198 };
+        int[] torches = { 6, 14, 20, 32, 37, 46, 54, 60, 71, 77, 106, 110, 119, 128, 137, 146, 151, 157, 163, 171, 180, 188, 198, 25, 50, 90, 104, 124, 142, 176, 193 };
 
         foreach (int x in torches) {
             b.AnimatedDecoration(x, 3.5f, new[] { "Torch1", "Torch2" }, 0.12f, -3);
