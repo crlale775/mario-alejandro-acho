@@ -77,3 +77,6 @@ crashlytics-build.properties
 # Archivos locales de prueba
 *.log
 shot-*.png
+
+# Ejecutable generado por el build
+/[Ee]jecutable/

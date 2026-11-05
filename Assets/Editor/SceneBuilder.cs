@@ -16,6 +16,10 @@ public static class SceneBuilder
         CreateLevelScene("1-2");
         CreateLevelScene("1-3");
         CreateLevelScene("1-4");
+        CreateLevelScene("2-1");
+        CreateLevelScene("2-2");
+        CreateLevelScene("2-3");
+        CreateLevelScene("2-4");
         CreateMenuScene();
         CreateEndScene("GameOver");
         CreateEndScene("Victory");
@@ -72,6 +76,10 @@ public static class SceneBuilder
             new EditorBuildSettingsScene($"{ScenesFolder}/1-2.unity", true),
             new EditorBuildSettingsScene($"{ScenesFolder}/1-3.unity", true),
             new EditorBuildSettingsScene($"{ScenesFolder}/1-4.unity", true),
+            new EditorBuildSettingsScene($"{ScenesFolder}/2-1.unity", true),
+            new EditorBuildSettingsScene($"{ScenesFolder}/2-2.unity", true),
+            new EditorBuildSettingsScene($"{ScenesFolder}/2-3.unity", true),
+            new EditorBuildSettingsScene($"{ScenesFolder}/2-4.unity", true),
             new EditorBuildSettingsScene($"{ScenesFolder}/GameOver.unity", true),
             new EditorBuildSettingsScene($"{ScenesFolder}/Victory.unity", true),
         };

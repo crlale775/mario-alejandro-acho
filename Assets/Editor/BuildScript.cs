@@ -8,7 +8,7 @@ using UnityEngine;
    o en lote con -executeMethod BuildScript.BuildWindows */
 public static class BuildScript
 {
-    private const string OutputFolder = "Build/Windows";
+    private const string OutputFolder = "ejecutable";
     private const string ExecutableName = "Mario Acho.exe";
 
     [MenuItem("Mario/Compilar para Windows")]
@@ -21,11 +21,16 @@ public static class BuildScript
             "Assets/Scenes/1-2.unity",
             "Assets/Scenes/1-3.unity",
             "Assets/Scenes/1-4.unity",
+            "Assets/Scenes/2-1.unity",
+            "Assets/Scenes/2-2.unity",
+            "Assets/Scenes/2-3.unity",
+            "Assets/Scenes/2-4.unity",
             "Assets/Scenes/GameOver.unity",
             "Assets/Scenes/Victory.unity",
         };
 
-        string absoluteFolder = Path.Combine(Directory.GetCurrentDirectory(), OutputFolder);
+        string projectRoot = Directory.GetParent(Application.dataPath).FullName;
+        string absoluteFolder = Path.Combine(projectRoot, OutputFolder);
         Directory.CreateDirectory(absoluteFolder);
 
         BuildPlayerOptions options = new BuildPlayerOptions
