@@ -255,7 +255,8 @@ public class LevelBuilder
     {
         GameObject pipe = new GameObject("Pipe");
         pipe.transform.SetParent(root);
-        pipe.transform.position = new Vector3(tx + 1f, groundY + height * 0.5f, 0f);
+        // la base de la tuberia queda al ras de la superficie del suelo
+        pipe.transform.position = new Vector3(tx + 1f, groundY + 1f + height * 0.5f, 0f);
 
         BoxCollider2D solid = pipe.AddComponent<BoxCollider2D>();
         solid.size = new Vector2(2f, height);
@@ -616,7 +617,7 @@ public class LevelBuilder
         GameObject plant = new GameObject("Piranha");
         plant.transform.SetParent(root);
 
-        float top = groundY + height;
+        float top = groundY + 1f + height;
         plant.transform.position = new Vector3(tx + 1f, top - 0.9f, 0f);
 
         SpriteRenderer renderer = plant.AddComponent<SpriteRenderer>();
