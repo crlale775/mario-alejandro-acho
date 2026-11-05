@@ -19,6 +19,9 @@ public static class LevelReef
     {
         b.length = Length;
 
+        // fondo profundo y corales de adorno
+        b.SpriteObject("WaterBack", Length * 0.5f, 5.5f, -10, false, true, Length, 11f);
+
         b.GroundSprite("SeaGround", 0, 177, 0);
         b.GroundSprite("SeaGround", 20, 34, 1);
         b.GroundSprite("SeaGround", 58, 76, 2);

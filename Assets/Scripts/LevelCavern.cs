@@ -10,6 +10,19 @@ public static class LevelCavern
     {
         b.length = Length;
 
+        // fondo de roca y estalactitas
+        b.SpriteObject("RockWall", Length * 0.5f, 5.5f, -10, false, true, Length, 11f);
+
+        for (int x = 4; x < (int)Length; x += 5) {
+            b.SpriteObject("Stalactite", x + 0.5f, 9.4f, -8);
+        }
+
+        b.AnimatedDecoration(16, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(48, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(96, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(150, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(196, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+
         // techo de piedra
         b.RowSprite("CaveBrick", 0, 207, 10);
         b.RowSprite("CaveBrick", 0, 207, 11);

@@ -10,6 +10,18 @@ public static class LevelDesert
     {
         b.length = Length;
 
+        // sol del desierto y arbustos secos
+        b.SpriteObject("DesertSun", 30f, 11.5f, -7);
+        b.SpriteObject("DesertSun", 152f, 11.5f, -7);
+
+        for (int x = 4; x < (int)Length; x += 8) {
+            b.SpriteObject("DesertBush", x + 0.5f, 1.5f, -2);
+        }
+
+        b.SpriteObject("Pyramid", 12.5f, 2.5f, -5);
+        b.SpriteObject("Pyramid", 138.5f, 2.5f, -5);
+        b.SpriteObject("Pyramid", 192.5f, 2.5f, -5);
+
         // ------------------------------- suelo ----------------------------
         int[][] tramos =
         {
