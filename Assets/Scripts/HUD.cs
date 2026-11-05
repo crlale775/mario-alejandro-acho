@@ -225,8 +225,7 @@ public class HUD : MonoBehaviour
 
     public void ShowBonus(int bonus)
     {
-        ShowToast($"¡NIVEL SUPERADO!
-<size=40>BONO DE TIEMPO +{bonus}</size>");
+        ShowToast($"¡NIVEL SUPERADO!\n<size=40>BONO DE TIEMPO +{bonus}</size>");
     }
 
     /* Aviso corto en el centro de la pantalla: vida extra, monedas, jefe. */
