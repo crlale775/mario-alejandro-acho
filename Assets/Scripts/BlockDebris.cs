@@ -5,7 +5,7 @@ public class BlockDebris : MonoBehaviour
 {
     public Vector2 velocity;
     public float gravity = -38f;
-    public float lifetime = 0.9f;
+    public float lifetime = 0.7f;
     public float spin = 220f;
 
     private void Update()

@@ -91,9 +91,7 @@ public class BlockHit : MonoBehaviour
             pieceRenderer.sprite = sprite;
             pieceRenderer.sortingOrder = sortingOrder;
 
-            BoxCollider2D pieceCollider = piece.AddComponent<BoxCollider2D>();
-            pieceCollider.size = Vector2.one;
-
+            // los pedazos son solo decoracion: sin choque no empujan a Mario
             BlockDebris debris = piece.AddComponent<BlockDebris>();
             debris.velocity = new Vector2(i % 2 == 0 ? -4.5f : 4.5f, i < 2 ? 12f : 9f);
         }
