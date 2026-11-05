@@ -338,6 +338,13 @@ public static class SoundSynth
         (72, 1f), (71, 1f), (62, 1f), (0, 1f),
     };
 
+    private static readonly (int note, float beats)[] DesertMelody =
+    {
+        (64, 0.5f), (67, 0.5f), (71, 0.5f), (67, 0.5f), (64, 0.5f), (67, 0.5f), (71, 0.5f), (74, 0.5f),
+        (72, 1f), (69, 1f), (64, 1f), (0, 1f),
+        (62, 0.5f), (64, 0.5f), (67, 0.5f), (69, 0.5f), (71, 1f), (67, 1f), (64, 1f), (0, 1f),
+    };
+
     public static AudioClip Music(GameTheme theme)
     {
         switch (theme)
@@ -356,6 +363,9 @@ public static class SoundSynth
 
             case GameTheme.Castle:
                 return BuildSong("music-castle", 144, CastleMelody, new[] { 38, 36, 38, 34 }, Wave.Saw, 0.13f, Wave.Square, 0.18f, true);
+
+            case GameTheme.Desert:
+                return BuildSong("music-desert", 118, DesertMelody, new[] { 45, 50, 52, 45 }, Wave.Triangle, 0.18f, Wave.Square, 0.14f, true);
 
             case GameTheme.GameOver:
                 return BuildGameOver();
@@ -541,6 +551,16 @@ public static class SoundSynth
                     float start = (float)random.NextDouble() * 7.4f;
                     float frequency = 900f + (float)random.NextDouble() * 600f;
                     AddTone(buffer, start, 0.12f, frequency, frequency * 0.6f, Wave.Triangle, 0.06f, 0.5f, 0.002f, 0.10f, 0.2f);
+                }
+                break;
+
+            case GameTheme.Desert:
+                AddNoise(buffer, 0f, 8f, 0.045f, 0.90f);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    float start = (float)random.NextDouble() * 7.4f;
+                    AddTone(buffer, start, 0.35f, 220f + (float)random.NextDouble() * 180f, 160f, Wave.Triangle, 0.04f, 0.5f, 0.05f, 0.30f, 0.2f);
                 }
                 break;
 
