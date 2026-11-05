@@ -302,9 +302,6 @@ public class LevelBuilder
         SpriteRenderer topRenderer = top.AddComponent<SpriteRenderer>();
         topRenderer.sprite = LoadSprite("PipeTop");
         topRenderer.sortingOrder = 4;
-        BoxCollider2D topCollider = top.AddComponent<BoxCollider2D>();
-        topCollider.size = new Vector2(2f, 1f);
-        topCollider.offset = top.transform.localPosition;
 
         GameObject body = new GameObject("Body");
         body.transform.SetParent(pipe.transform);
