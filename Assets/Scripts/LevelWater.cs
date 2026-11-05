@@ -76,6 +76,13 @@ public static class LevelWater
         b.RowSprite("SeaBrick", 160, 166, 8);
         b.CoinRow(161, 165, 9);
 
+        // formaciones de cristal entre los corales
+        int[] crystals = { 9, 31, 43, 59, 71, 87, 99, 115, 137, 155, 167, 179 };
+
+        foreach (int x in crystals) {
+            b.SpriteObject("Crystal", x + 0.5f, FloorTop(x) + 1.4f, -2);
+        }
+
         // ---------------------------- peces ------------------------------
         b.CheepCheep(18, 7.5f, 6f, 2.2f);
         b.CheepCheep(32, 6f, 5f, 2.6f);
@@ -88,6 +95,13 @@ public static class LevelWater
         b.CheepCheep(136, 6.5f, 5f, 2.6f);
         b.CheepCheep(156, 8f, 6f, 2.3f);
         b.CheepCheep(168, 7f, 5f, 2.7f);
+        b.CheepCheep(24, 9f, 5f, 2.4f);
+        b.CheepCheep(52, 9.5f, 6f, 2.9f);
+        b.CheepCheep(96, 9f, 4f, 3.1f);
+        b.CheepCheep(146, 9.5f, 6f, 2.5f);
+
+        // premio por cruzar el arrecife completo
+        b.Spawn("1upMushroom", 165.5f, 10f);
 
         // bloopers que suben y bajan entre los corales
         b.Blooper(26, 5f, 4f, 1.5f);
@@ -106,6 +120,21 @@ public static class LevelWater
 
         b.SpriteObject("SeaPlatform", 128.5f, 3.6f, -1, true, false, 3f, 0.5f);
         b.CoinRow(127, 129, 5);
+
+        // repisas extra con monedas
+        b.SpriteObject("SeaPlatform", 22.5f, 8.4f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(21, 23, 9);
+
+        b.SpriteObject("SeaPlatform", 64.5f, 9.4f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(63, 65, 10);
+
+        b.SpriteObject("SeaPlatform", 122.5f, 8.4f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(121, 123, 9);
+
+        b.SpriteObject("SeaPlatform", 172.5f, 6.4f, -1, true, false, 3f, 0.5f);
+        b.CoinRow(171, 173, 7);
+
+        b.Blooper(118, 9f, 4f, 1.9f);
 
         // burbujas ambientales
         b.Bubbles(0f, Length, 1f, 11f, 26);
