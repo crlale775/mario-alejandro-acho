@@ -6,6 +6,7 @@ public class BlockHit : MonoBehaviour
     public GameObject item;
     public Sprite emptyBlock;
     public int maxHits = -1;
+    public bool breakable;
     private bool animating;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -13,13 +14,19 @@ public class BlockHit : MonoBehaviour
         if (!animating && maxHits != 0 && collision.gameObject.CompareTag("Player"))
         {
             if (collision.transform.DotTest(transform, Vector2.up)) {
-                Hit();
+                Hit(collision.gameObject.GetComponent<Player>());
             }
         }
     }
 
-    private void Hit()
+    private void Hit(Player player)
     {
+        // Mario grande rompe el ladrillo de un solo golpe
+        if (breakable && player != null && player.big) {
+            Break();
+            return;
+        }
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = true; // show if hidden
 
@@ -38,6 +45,41 @@ public class BlockHit : MonoBehaviour
         }
 
         StartCoroutine(Animate());
+    }
+
+    /* El bloque se parte en cuatro pedazos que caen fuera del nivel. */
+    private void Break()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Sprite sprite = spriteRenderer != null ? spriteRenderer.sprite : null;
+        int sortingOrder = spriteRenderer != null ? spriteRenderer.sortingOrder : 0;
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject piece = new GameObject("Debris");
+            piece.transform.position = transform.position + new Vector3(i % 2 == 0 ? -0.25f : 0.25f, i < 2 ? 0.25f : -0.25f, 0f);
+            piece.transform.localScale = Vector3.one * 0.5f;
+
+            SpriteRenderer pieceRenderer = piece.AddComponent<SpriteRenderer>();
+            pieceRenderer.sprite = sprite;
+            pieceRenderer.sortingOrder = sortingOrder;
+
+            BoxCollider2D pieceCollider = piece.AddComponent<BoxCollider2D>();
+            pieceCollider.size = Vector2.one;
+
+            BlockDebris debris = piece.AddComponent<BlockDebris>();
+            debris.velocity = new Vector2(i % 2 == 0 ? -4.5f : 4.5f, i < 2 ? 12f : 9f);
+        }
+
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.PlaySfx(Sfx.Bump);
+        }
+
+        if (GameManager.Instance != null) {
+            GameManager.Instance.AddScore(50);
+        }
+
+        Destroy(gameObject);
     }
 
     private IEnumerator Animate()
