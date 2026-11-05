@@ -27,6 +27,35 @@ public class Goomba : MonoBehaviour
         }
     }
 
+    /* Golpe desde abajo: el goomba sale despedido y desaparece. */
+    public void Bump()
+    {
+        if (!enabled) {
+            return;
+        }
+
+        enabled = false;
+
+        Collider2D[] colliders = GetComponents<Collider2D>();
+
+        foreach (Collider2D collider in colliders) {
+            collider.enabled = false;
+        }
+
+        GetComponent<AnimatedSprite>().enabled = false;
+        GetComponent<EntityMovement>().enabled = false;
+        GetComponent<DeathAnimation>().enabled = true;
+        Destroy(gameObject, 3f);
+
+        if (AudioManager.Instance != null) {
+            AudioManager.Instance.PlaySfx(Sfx.Stomp);
+        }
+
+        if (GameManager.Instance != null) {
+            GameManager.Instance.AddScore(100);
+        }
+    }
+
     private void Flatten()
     {
         GetComponent<Collider2D>().enabled = false;

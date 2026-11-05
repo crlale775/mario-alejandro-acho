@@ -44,7 +44,34 @@ public class BlockHit : MonoBehaviour
             AudioManager.Instance.PlaySfx(Sfx.Bump);
         }
 
+        BumpEnemies();
         StartCoroutine(Animate());
+    }
+
+    /* Los enemigos que estan encima del bloque salen despedidos. */
+    private void BumpEnemies()
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll((Vector2)transform.position + Vector2.up, new Vector2(1.1f, 0.7f), 0f);
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.isTrigger || hit.gameObject.layer != LayerMask.NameToLayer("Enemy")) {
+                continue;
+            }
+
+            Goomba goomba = hit.GetComponent<Goomba>();
+
+            if (goomba != null) {
+                goomba.Bump();
+                continue;
+            }
+
+            Koopa koopa = hit.GetComponent<Koopa>();
+
+            if (koopa != null) {
+                koopa.Bump();
+            }
+        }
     }
 
     /* El bloque se parte en cuatro pedazos que caen fuera del nivel. */
@@ -74,6 +101,8 @@ public class BlockHit : MonoBehaviour
         if (AudioManager.Instance != null) {
             AudioManager.Instance.PlaySfx(Sfx.Bump);
         }
+
+        BumpEnemies();
 
         if (GameManager.Instance != null) {
             GameManager.Instance.AddScore(50);

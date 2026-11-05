@@ -85,6 +85,12 @@ public class Koopa : MonoBehaviour
         }
     }
 
+    /* Golpe desde abajo: la koopa tambien cae al vacio. */
+    public void Bump()
+    {
+        Hit();
+    }
+
     private void Hit()
     {
         GetComponent<AnimatedSprite>().enabled = false;
