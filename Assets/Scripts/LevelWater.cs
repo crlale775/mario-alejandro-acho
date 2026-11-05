@@ -18,6 +18,9 @@ public static class LevelWater
     {
         b.length = Length;
 
+        // fondo profundo del mar
+        b.SpriteObject("WaterBack", Length * 0.5f, 5.5f, -10, false, true, Length, 11f);
+
         // fondo marino
         b.GroundSprite("SeaGround", 0, 191, 0);
         b.GroundSprite("SeaGround", 24, 40, 1);
@@ -138,6 +141,17 @@ public static class LevelWater
 
         // burbujas ambientales
         b.Bubbles(0f, Length, 1f, 11f, 26);
+
+        // corales y cristales de adorno en los tramos profundos
+        for (int x = 3; x < (int)Length; x += 9) {
+            b.SpriteObject("Coral2", x + 0.5f, FloorTop(x) + 2.6f, -2);
+        }
+
+        b.SpriteObject("SeaPlatform", 8.5f, 6.4f, -1, true, false, 3f, 0.5f);
+        b.SpriteObject("SeaPlatform", 74.5f, 8.4f, -1, true, false, 3f, 0.5f);
+        b.SpriteObject("SeaPlatform", 112.5f, 7.4f, -1, true, false, 3f, 0.5f);
+        b.SpriteObject("SeaPlatform", 156.5f, 8.4f, -1, true, false, 3f, 0.5f);
+
 
         // tuberia de salida hacia el castillo
         b.ExitPipe(182, 0, 3);

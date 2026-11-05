@@ -9,6 +9,22 @@ public static class LevelUnderground
     {
         b.length = Length;
 
+        // fondo de roca y estalactitas del techo
+        b.SpriteObject("RockWall", Length * 0.5f, 5.5f, -10, false, true, Length, 11f);
+
+        for (int x = 3; x < (int)Length; x += 6) {
+            b.SpriteObject("Stalactite", x + 0.5f, 9.4f, -8);
+        }
+
+        for (int x = 5; x < (int)Length; x += 13) {
+            b.SpriteObject("Crystal", x + 0.5f, 1.5f, -3);
+        }
+
+        b.AnimatedDecoration(12, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(38, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(88, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+        b.AnimatedDecoration(140, 3.2f, new[] { "Torch1", "Torch2" }, 0.12f, -4);
+
         const string floor = "UndergroundBlock";
         const string brick = "UndergroundBrick";
 
