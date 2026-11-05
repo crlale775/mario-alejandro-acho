@@ -28,15 +28,19 @@ public class PowerUp : MonoBehaviour
                     AudioManager.Instance.PlaySfx(Sfx.Coin);
                 }
 
-                GameManager.Instance.AddCoin();
+                if (GameManager.Instance != null) {
+                    GameManager.Instance.AddCoin();
+                }
                 break;
 
             case Type.ExtraLife:
-                if (AudioManager.Instance != null) {
-                    AudioManager.Instance.PlaySfx(Sfx.OneUp);
+                if (GameManager.Instance != null) {
+                    GameManager.Instance.AddLife();
                 }
 
-                GameManager.Instance.AddLife();
+                if (HUD.Instance != null) {
+                    HUD.Instance.ShowToast("¡VIDA EXTRA!  +1");
+                }
                 break;
 
             case Type.MagicMushroom:
@@ -44,8 +48,15 @@ public class PowerUp : MonoBehaviour
                     AudioManager.Instance.PlaySfx(Sfx.PowerUp);
                 }
 
-                GameManager.Instance.AddScore(1000);
+                if (GameManager.Instance != null) {
+                    GameManager.Instance.AddScore(1000);
+                }
+
                 player.GetComponent<Player>().Grow();
+
+                if (HUD.Instance != null) {
+                    HUD.Instance.ShowToast("¡MARIO GRANDE!");
+                }
                 break;
 
             case Type.Starpower:
@@ -53,7 +64,10 @@ public class PowerUp : MonoBehaviour
                     AudioManager.Instance.PlaySfx(Sfx.PowerUp);
                 }
 
-                GameManager.Instance.AddScore(1000);
+                if (GameManager.Instance != null) {
+                    GameManager.Instance.AddScore(1000);
+                }
+
                 player.GetComponent<Player>().Starpower();
                 break;
         }

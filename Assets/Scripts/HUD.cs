@@ -225,6 +225,13 @@ public class HUD : MonoBehaviour
 
     public void ShowBonus(int bonus)
     {
+        ShowToast($"¡NIVEL SUPERADO!
+<size=40>BONO DE TIEMPO +{bonus}</size>");
+    }
+
+    /* Aviso corto en el centro de la pantalla: vida extra, monedas, jefe. */
+    public void ShowToast(string message)
+    {
         if (bonusText == null) {
             return;
         }
@@ -233,12 +240,12 @@ public class HUD : MonoBehaviour
             StopCoroutine(bonusRoutine);
         }
 
-        bonusRoutine = StartCoroutine(BonusRoutine(bonus));
+        bonusRoutine = StartCoroutine(BonusRoutine(message));
     }
 
-    private IEnumerator BonusRoutine(int bonus)
+    private IEnumerator BonusRoutine(string message)
     {
-        bonusText.text = $"¡NIVEL SUPERADO!\n<size=40>BONO DE TIEMPO +{bonus}</size>";
+        bonusText.text = message;
         bonusText.gameObject.SetActive(true);
 
         float elapsed = 0f;
@@ -256,26 +263,8 @@ public class HUD : MonoBehaviour
         bonusRoutine = null;
     }
 
-    private bool loggedMetrics;
-    private bool capturedShot;
-
     private void Update()
     {
-        if (!loggedMetrics && Time.unscaledTime > 1f)
-        {
-            loggedMetrics = true;
-            Camera main = Camera.main;
-            RectTransform rect = canvas.GetComponent<RectTransform>();
-            CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
-            Debug.Log($"PANTALLA {Screen.width}x{Screen.height} dpi={Screen.dpi} escala={canvas.scaleFactor} scaler={(scaler != null ? scaler.scaleFactor : -1f)} rect={rect.rect.width}x{rect.rect.height} camara={(main != null ? main.pixelWidth + "x" + main.pixelHeight : "n/d")} res={Screen.currentResolution.width}x{Screen.currentResolution.height}");
-        }
-
-        if (!capturedShot && Time.unscaledTime > 2f)
-        {
-            capturedShot = true;
-            ScreenCapture.CaptureScreenshot("C:/Users/ALEJANDRO/Desktop/tarea uwuw/shot-ingame.png");
-        }
-
         if (canvas == null || !canvas.enabled) {
             return;
         }
