@@ -4,6 +4,7 @@ public enum GameTheme
 {
     Menu,
     Overworld,
+    Desert,
     Underground,
     Water,
     Castle,
@@ -14,6 +15,9 @@ public enum GameTheme
 /* Configuracion central de cada escena: tema, tiempo y colores. */
 public static class LevelCatalog
 {
+    /* Cuantos mundos tiene la aventura completa. */
+    public const int LastWorld = 2;
+
     public static bool IsLevel(string sceneName)
     {
         return IsLevelName(sceneName);
@@ -68,6 +72,10 @@ public static class LevelCatalog
             case "1-2": return 350f;
             case "1-3": return 350f;
             case "1-4": return 400f;
+            case "2-1": return 400f;
+            case "2-2": return 350f;
+            case "2-3": return 350f;
+            case "2-4": return 400f;
             default: return 0f;
         }
     }
@@ -83,6 +91,10 @@ public static class LevelCatalog
             case "1-2": return GameTheme.Underground;
             case "1-3": return GameTheme.Water;
             case "1-4": return GameTheme.Castle;
+            case "2-1": return GameTheme.Desert;
+            case "2-2": return GameTheme.Underground;
+            case "2-3": return GameTheme.Water;
+            case "2-4": return GameTheme.Castle;
             default: return GameTheme.Overworld;
         }
     }
@@ -96,6 +108,7 @@ public static class LevelCatalog
             case GameTheme.Underground: return new Color(0.03f, 0.05f, 0.10f);
             case GameTheme.Water: return new Color(0.08f, 0.28f, 0.55f);
             case GameTheme.Castle: return new Color(0.07f, 0.03f, 0.04f);
+            case GameTheme.Desert: return new Color(0.52f, 0.74f, 0.96f);
             case GameTheme.GameOver: return new Color(0.03f, 0.03f, 0.05f);
             case GameTheme.Victory: return new Color(0.04f, 0.06f, 0.14f);
             default: return Color.black;
@@ -110,13 +123,14 @@ public static class LevelCatalog
             case GameTheme.Water: return new Color(0.10f, 0.45f, 0.90f, 0.22f);
             case GameTheme.Castle: return new Color(0.55f, 0.10f, 0.02f, 0.12f);
             case GameTheme.Underground: return new Color(0.02f, 0.04f, 0.12f, 0.10f);
+            case GameTheme.Desert: return new Color(1f, 0.70f, 0.28f, 0.10f);
             default: return new Color(0f, 0f, 0f, 0f);
         }
     }
 
     public static bool IsWater(string sceneName)
     {
-        return sceneName == "1-3";
+        return sceneName == "1-3" || sceneName == "2-3";
     }
 
     public static string NameFor(string sceneName)
@@ -127,6 +141,10 @@ public static class LevelCatalog
             case "1-2": return "CAVERNA SUBTERRANEA  -  pulsa S en la tuberia final";
             case "1-3": return "FONDO DEL MAR  -  manten SALTO para nadar";
             case "1-4": return "CASTILLO DE BOWSER  -  llega al hacha";
+            case "2-1": return "ARENA DEL DESIERTO  -  llega a la bandera";
+            case "2-2": return "GALERIAS DE CRISTAL  -  pulsa S en la tuberia final";
+            case "2-3": return "ARRECIFE PROFUNDO  -  manten SALTO para nadar";
+            case "2-4": return "FORTALEZA DE BOWSER  -  llega al hacha";
             default: return string.Empty;
         }
     }

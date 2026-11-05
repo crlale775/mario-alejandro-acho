@@ -9,7 +9,7 @@ public class LevelDirector : MonoBehaviour
 
     private void Awake()
     {
-        float cameraHeight = levelId == "1-4" ? LevelCastle.CameraHeight : LevelUnderground.CameraHeight;
+        float cameraHeight = CameraHeightFor(levelId);
 
         Camera camera = CreateCamera(cameraHeight);
         builder = new LevelBuilder($"Nivel {levelId}");
@@ -24,6 +24,22 @@ public class LevelDirector : MonoBehaviour
                 LevelCastle.Build(builder);
                 break;
 
+            case "2-1":
+                LevelDesert.Build(builder);
+                break;
+
+            case "2-2":
+                LevelCavern.Build(builder);
+                break;
+
+            case "2-3":
+                LevelReef.Build(builder);
+                break;
+
+            case "2-4":
+                LevelFortress.Build(builder);
+                break;
+
             default:
                 LevelUnderground.Build(builder);
                 break;
@@ -33,6 +49,16 @@ public class LevelDirector : MonoBehaviour
 
         if (LevelCatalog.IsWater(levelId) && builder.playerMovement != null) {
             builder.playerMovement.SetSwimming(true);
+        }
+    }
+
+    private static float CameraHeightFor(string id)
+    {
+        switch (id)
+        {
+            case "1-4": return LevelCastle.CameraHeight;
+            case "2-4": return LevelFortress.CameraHeight;
+            default: return LevelUnderground.CameraHeight;
         }
     }
 

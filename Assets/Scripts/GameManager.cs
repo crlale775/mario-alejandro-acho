@@ -148,8 +148,16 @@ public class GameManager : MonoBehaviour
     {
         int nextStage = stage + 1;
 
-        if (nextStage > 4) {
-            Victory();
+        if (nextStage > 4)
+        {
+            int nextWorld = world + 1;
+
+            if (nextWorld > LevelCatalog.LastWorld) {
+                Victory();
+                return;
+            }
+
+            LoadLevel(nextWorld, 1);
             return;
         }
 

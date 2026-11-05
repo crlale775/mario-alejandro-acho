@@ -18,6 +18,10 @@ public class MenuController : MonoBehaviour
         new Option { label = "NIVEL SUBTERRANEO", detail = "Mundo 1-2 · caverna", world = 1, stage = 2 },
         new Option { label = "NIVEL ACUATICO", detail = "Mundo 1-3 · fondo del mar", world = 1, stage = 3 },
         new Option { label = "CASTILLO DE BOWSER", detail = "Mundo 1-4 · jefe final", world = 1, stage = 4 },
+        new Option { label = "MUNDO 2 · DESIERTO", detail = "Mundo 2-1 · arenas y piramides", world = 2, stage = 1 },
+        new Option { label = "GALERIAS DE CRISTAL", detail = "Mundo 2-2 · cavernas azules", world = 2, stage = 2 },
+        new Option { label = "ARRECIFE PROFUNDO", detail = "Mundo 2-3 · nado entre corales", world = 2, stage = 3 },
+        new Option { label = "FORTALEZA FINAL", detail = "Mundo 2-4 · Bowser", world = 2, stage = 4 },
     };
 
     private Text[] labels;
@@ -193,29 +197,29 @@ public class MenuController : MonoBehaviour
 
         labels = new Text[options.Length];
         details = new Text[options.Length];
-        float startY = 90f;
+        float startY = 150f;
 
         for (int i = 0; i < options.Length; i++)
         {
-            labels[i] = MakeText(canvasObject.transform, $"Option{i}", options[i].label, 44, Color.white, font, TextAnchor.MiddleCenter);
-            labels[i].rectTransform.anchoredPosition = new Vector2(-120f, startY - i * 96f);
+            labels[i] = MakeText(canvasObject.transform, $"Option{i}", options[i].label, 34, Color.white, font, TextAnchor.MiddleCenter);
+            labels[i].rectTransform.anchoredPosition = new Vector2(-90f, startY - i * 70f);
             labels[i].alignment = TextAnchor.MiddleLeft;
-            labels[i].rectTransform.sizeDelta = new Vector2(760f, 56f);
+            labels[i].rectTransform.sizeDelta = new Vector2(700f, 48f);
 
-            details[i] = MakeText(canvasObject.transform, $"Detail{i}", options[i].detail, 24, Color.white, font, TextAnchor.MiddleCenter);
-            details[i].rectTransform.anchoredPosition = new Vector2(360f, startY - i * 96f + 2f);
-            details[i].rectTransform.sizeDelta = new Vector2(360f, 40f);
+            details[i] = MakeText(canvasObject.transform, $"Detail{i}", options[i].detail, 20, Color.white, font, TextAnchor.MiddleCenter);
+            details[i].rectTransform.anchoredPosition = new Vector2(340f, startY - i * 70f + 2f);
+            details[i].rectTransform.sizeDelta = new Vector2(380f, 34f);
             details[i].alignment = TextAnchor.MiddleLeft;
         }
 
         hint = MakeText(canvasObject.transform, "Hint",
             "FLECHAS / W-S  ELEGIR        ENTER / ESPACIO  JUGAR        M  SILENCIAR",
-            26, new Color(0.85f, 0.9f, 1f), font, TextAnchor.MiddleCenter);
-        hint.rectTransform.anchoredPosition = new Vector2(0f, -330f);
+            24, new Color(0.85f, 0.9f, 1f), font, TextAnchor.MiddleCenter);
+        hint.rectTransform.anchoredPosition = new Vector2(0f, -400f);
 
         Text footer = MakeText(canvasObject.transform, "Footer",
             "Cualquier opcion inicia el juego", 24, new Color(1f, 1f, 1f, 0.55f), font, TextAnchor.MiddleCenter);
-        footer.rectTransform.anchoredPosition = new Vector2(0f, -376f);
+        footer.rectTransform.anchoredPosition = new Vector2(0f, -446f);
     }
 
     private Text MakeText(Transform parent, string name, string content, int fontSize, Color color, Font font, TextAnchor anchor)
