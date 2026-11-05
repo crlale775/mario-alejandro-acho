@@ -16,6 +16,16 @@ public static class LevelCastle
         // muro de fondo de todo el castillo
         b.SpriteObject("CastleBackground", Length * 0.5f, 5.5f, -10, false, true, Length, 11f);
 
+        // banderas y calaveras en los muros
+        int[] banderas = { 9, 20, 34, 45, 58, 70, 80, 92, 110, 121, 133, 147, 158, 172, 186, 197 };
+
+        foreach (int x in banderas)
+        {
+            b.SpriteObject("CastleBanner", x + 0.5f, 7.4f, -7);
+            b.SpriteObject("Skull", x + 0.5f, 5.2f, -7);
+        }
+
+
         // techo abovedado
         b.RowSprite("CastleBrick", 0, 205, 10);
         b.RowSprite("CastleBrick", 0, 205, 11);

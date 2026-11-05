@@ -12,6 +12,15 @@ public static class LevelFortress
 
         b.SpriteObject("CastleBackground", Length * 0.5f, 5.5f, -10, false, true, Length, 11f);
 
+        int[] banderas = { 6, 15, 24, 33, 42, 51, 60, 69, 78, 88, 98, 108, 118, 130, 142 };
+
+        foreach (int x in banderas)
+        {
+            b.SpriteObject("CastleBanner", x + 0.5f, 7.4f, -7);
+            b.SpriteObject("Skull", x + 0.5f, 5.2f, -7);
+        }
+
+
         b.RowSprite("CastleBrick", 0, 151, 10);
         b.RowSprite("CastleBrick", 0, 151, 11);
 
